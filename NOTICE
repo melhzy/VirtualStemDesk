@@ -1,0 +1,10 @@
+Virtual Stem Desk
+Copyright 2026 Ziyuan Huang
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This product bundles abcjs (https://github.com/paulrosen/abcjs), Copyright (c) 2009-2024
+Paul Rosen and Gregory Dyke, under the MIT License; see vendor/abcjs-LICENSE.md.
+
+The demo song in demo/ is the traditional tune NEW BRITAIN (public domain), synthesized by
+tools/make_demo.py. It contains no recordings or samples.

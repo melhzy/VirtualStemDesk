@@ -1,0 +1,54 @@
+{
+  "title": "New Britain (demo)",
+  "bpm": 78.0,
+  "meter": "6/4",
+  "firstDownbeat": 1.7692,
+  "pickupBeats": 1,
+  "abc": "tune.abc",
+  "scoreStart": 1.0,
+  "sections": [
+    {
+      "name": "Pick-up",
+      "time": 1.0
+    },
+    {
+      "name": "Line 1",
+      "time": 1.769
+    },
+    {
+      "name": "Line 2",
+      "time": 11.0
+    },
+    {
+      "name": "Line 3",
+      "time": 20.231
+    },
+    {
+      "name": "Line 4",
+      "time": 29.462
+    }
+  ],
+  "tracks": [
+    {
+      "file": "melody.wav",
+      "name": "Melody",
+      "group": "Lead",
+      "gainDb": -8,
+      "pan": 0
+    },
+    {
+      "file": "chords.wav",
+      "name": "Chords",
+      "group": "Harmony",
+      "gainDb": -14,
+      "pan": -0.2
+    },
+    {
+      "file": "bass.wav",
+      "name": "Bass",
+      "group": "Rhythm",
+      "gainDb": -11,
+      "pan": 0.1
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Virtual Stem Desk</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo" aria-hidden="true"></span><h1>Virtual Stem Desk</h1><span id="songTitle" class="song">No song loaded</span></div>
+  <div class="actions">
+    <button id="openFolder" class="btn">Open folder…</button>
+    <button id="openFiles" class="btn">Add files…</button>
+    <button id="loadDemo" class="btn ghost">Load demo</button>
+    <details class="menu" id="moreMenu"><summary class="btn ghost">More</summary>
+      <div class="menu-body">
+        <button id="saveMix" class="btn ghost" disabled>Save desk settings</button>
+        <button id="loadMix" class="btn ghost" disabled>Load desk settings…</button>
+        <label class="field menu-field">Export loudness <select id="normTo"><option value="0">As mixed</option><option value="-16">-16 LUFS</option><option value="-14">-14 LUFS</option><option value="-18">-18 LUFS</option><option value="-23">-23 LUFS</option></select></label>
+        <button id="exportWav" class="btn ghost" disabled>Export mix as WAV</button>
+        <button id="midiBtn" class="btn ghost">MIDI control…</button>
+        <button id="resetDesk" class="btn ghost" disabled title="Forget the saved desk for this song and go back to the levels in song.json">Reset desk</button>
+        <button id="clearAll" class="btn ghost" disabled>Close song</button>
+      </div>
+    </details>
+  </div>
+  <input type="file" id="pickFolder" webkitdirectory multiple hidden>
+  <input type="file" id="pickFiles" multiple hidden accept=".wav,.mp3,.flac,.ogg,.oga,.opus,.m4a,.aac,.aif,.aiff,.json,.abc">
+  <input type="file" id="pickMix" hidden accept=".json">
+</header>
+
+<section class="transport" aria-label="Transport">
+  <button id="play" class="btn primary" disabled aria-label="Play or pause (Space)">Play</button>
+  <button id="stop" class="btn" disabled>Stop</button>
+  <output id="clock" class="clock">0:00.0 / 0:00.0</output>
+  <span id="barBeat" class="barbeat"></span>
+  <span class="sep"></span>
+  <button id="loopBtn" class="btn toggle" aria-pressed="false" disabled title="Loop on / off (L). Choose what to loop: Shift-drag on the overview, or double-click a section.">Loop</button>
+  <label class="field" title="When a loop repeats, play one bar of clicks first"><input type="checkbox" id="countIn" disabled> Count-in</label>
+  <button id="markBtn" class="btn" disabled title="Add a marker at the current position (K)">+ Marker</button>
+  <label class="field">Speed
+    <select id="rate" disabled><option value="1">100%</option><option value="0.75">75%</option><option value="0.5">50%</option></select>
+  </label>
+  <span class="sep"></span>
+  <button id="clickBtn" class="btn toggle" aria-pressed="false" disabled>Metronome</button>
+  <label class="field"><span class="sr">Metronome level</span><input type="range" id="clickVol" min="-30" max="6" step="1" value="-6" disabled aria-label="Metronome level"></label>
+  <span class="grow"></span>
+  <nav id="sections" class="sections" aria-label="Sections"></nav>
+</section>
+<p id="status" class="status" role="status">Ready.</p>
+
+<div id="drop" class="drop">
+  <h2>Drop a song folder here</h2>
+  <p>Audio stems (WAV, MP3, FLAC, OGG, M4A) are required. A <code>song.json</code> (tempo, sections, track names) and an <code>.abc</code> score are optional.</p>
+  <p class="hint">Everything stays in this browser tab. Nothing is uploaded.</p>
+</div>
+
+<main id="deskMain" hidden>
+  <section class="overview" aria-label="Overview"><canvas id="overview" tabindex="0" aria-label="Song overview: click to seek, Shift-drag to set a loop"></canvas><div id="playhead" class="playhead" aria-hidden="true"></div><div id="loopBox" class="loopbox" hidden aria-hidden="true"></div></section>
+  <div id="markers" class="markers" hidden aria-label="Markers"></div>
+
+  <section class="screen" aria-label="Display">
+    <div class="screen-bar" role="tablist" aria-label="Display page">
+      <button id="tabScore" class="tab" role="tab" aria-selected="false" hidden>Score</button>
+      <button id="tabProc" class="tab" role="tab" aria-selected="true">Processing</button>
+      <button id="tabWave" class="tab" role="tab" aria-selected="false">Waveform</button>
+      <span class="seltag" id="selTag" title="Selected channel"></span>
+      <span class="screen-info" id="screenInfo"></span>
+      <button id="loud" class="loud" title="Loudness of the main output (ITU-R BS.1770). M: last 0.4 s. S: last 3 s. I: since the last reset. PK: highest sample peak. Click to reset.">M <b id="ldM">--.-</b> S <b id="ldS">--.-</b> I <b id="ldI">--.-</b> <i>LUFS</i> PK <b id="ldP">--.-</b> <i>dB</i></button>
+      <label class="field" id="followWrap" hidden><input type="checkbox" id="follow" checked> Follow</label>
+      <label class="field" id="wrapWrap" hidden>Bars per line <select id="scoreWrap" aria-label="Bars per line of the score"><option value="file">As in the file</option><option value="auto">Auto</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="6">6</option><option value="1">1</option><option value="8">8</option><option value="scroll">One line, scrolling</option></select></label>
+      <label class="field" id="zoomWrap" hidden>Size <select id="scoreZoom" aria-label="Size of the notation"><option value="0.8">80%</option><option value="1" selected>100%</option><option value="1.25">125%</option><option value="1.5">150%</option><option value="2">200%</option></select></label>
+      <label class="field" id="sizeWrap" hidden>Lines <select id="scoreSize" aria-label="How much of the score to show"><option value="300">About 3</option><option value="520">About 5</option><option value="0">All</option></select></label>
+      <label class="field" id="paperWrap" hidden><input type="checkbox" id="lightPaper"> Light paper</label>
+    </div>
+    <div id="scorePanel" class="score" role="tabpanel" aria-label="Score" hidden><div id="paperBox"><div id="paper"></div><div id="cursor" aria-hidden="true"></div></div></div>
+    <div id="paneWave" class="wavepane" role="tabpanel" aria-label="Waveform of the selected channel" hidden>
+      <div class="wavebar"><span id="waveChip" class="chip"></span><b id="waveName"></b>
+        <label class="field">Window <select id="waveZoom"><option value="4">4 s</option><option value="8" selected>8 s</option><option value="16">16 s</option><option value="32">32 s</option><option value="0">Whole song</option></select></label>
+        <span class="grow"></span><span class="lab">Track timing</span>
+        <button class="key" data-nudge="-10" title="Earlier by 10 ms">-10</button><button class="key" data-nudge="-1" title="Earlier by 1 ms">-1</button>
+        <output id="nudgeTxt" class="nudge">0 ms</output>
+        <button class="key" data-nudge="1" title="Later by 1 ms">+1</button><button class="key" data-nudge="10" title="Later by 10 ms">+10</button>
+        <button class="key" id="nudgeZero" title="Back to the original timing">0</button>
+      </div>
+      <canvas id="waveCv" aria-label="Waveform of the selected channel on the beat grid: click to seek"></canvas>
+      <div class="wavefoot"><span id="waveInfo"></span><span>Vertical lines are beats; brighter lines with numbers are bars. Timing moves this track only, and is saved with the desk settings.</span></div>
+    </div>
+  <div id="paneProc" class="channel" role="tabpanel" aria-label="Selected channel processing">
+    <div class="ch-id"><span id="selChip" class="chip"></span><div><b id="selName">No channel selected</b><small id="selFile"></small></div>
+      <div class="ch-assign" id="dcaAssign" aria-label="DCA assignment"></div>
+      <span class="ch-move"><button id="moveL" class="key" title="Move this channel one place left" aria-label="Move channel left">&#9664;</button><button id="moveR" class="key" title="Move this channel one place right" aria-label="Move channel right">&#9654;</button></span>
+      <button id="linkBtn" class="key" aria-pressed="false" title="Link this channel with the one to its right, so the pair moves as one">Link with next</button>
+      <button id="removeTrack" class="btn ghost small" title="Take this track off the desk. The file on your disk is not touched.">Remove track</button>
+    </div>
+    <div class="proc">
+      <fieldset class="block"><legend><button id="hpfOn" class="key" aria-pressed="false">HPF</button></legend>
+        <label class="knob">Freq <input type="range" id="hpfF" min="20" max="1000" step="1" value="80"><output id="hpfFTxt"></output></label>
+      </fieldset>
+      <fieldset class="block eq"><legend><button id="eqOn" class="key" aria-pressed="false">PEQ</button></legend>
+        <canvas id="eqCurve" width="360" height="110" aria-label="Equaliser response"></canvas>
+        <div id="eqBands" class="bands"></div>
+      </fieldset>
+      <fieldset class="block"><legend><button id="compOn" class="key" aria-pressed="false">Comp</button></legend>
+        <div class="comp-grid">
+          <label class="knob">Thresh <input type="range" id="cThr" min="-60" max="0" step="1" value="-18"><output id="cThrTxt"></output></label>
+          <label class="knob">Ratio <input type="range" id="cRat" min="1" max="20" step="0.5" value="3"><output id="cRatTxt"></output></label>
+          <label class="knob">Attack <input type="range" id="cAtt" min="1" max="200" step="1" value="10"><output id="cAttTxt"></output></label>
+          <label class="knob">Release <input type="range" id="cRel" min="20" max="1000" step="10" value="150"><output id="cRelTxt"></output></label>
+          <label class="knob">Trim <input type="range" id="cMk" min="-12" max="12" step="0.5" value="0"><output id="cMkTxt"></output></label>
+          <div class="gr" title="Gain reduction"><span>GR</span><i id="grBar"></i><output id="grTxt">0.0</output></div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  </section>
+
+
+  <section class="console" aria-label="Console">
+    <div class="layerbar"><span class="lab">Layers</span><div id="layers" class="layers"></div>
+      <button id="soloClear" class="key" disabled title="Turn off every Solo (Esc)">Solo clear</button><button id="muteClear" class="key" disabled title="Turn off every channel Mute">Unmute all</button><span class="grow"></span>
+      <span class="lab">Scenes</span><button id="sceneStore" class="key" aria-pressed="false" title="Turn on, then press a scene number to store the current desk in it">Store</button><div id="scenes" class="scenes"></div>
+    </div>
+    <div class="surface">
+      <div id="strips" class="strips" role="list"></div>
+      <div id="groups" class="strips fixed" role="list"></div>
+    </div>
+  </section>
+</main>
+
+
+
+<dialog id="midiDlg" class="dlg">
+  <h2>MIDI control</h2>
+  <p id="midiState" class="muted">Not connected.</p>
+  <label class="field col">Mode
+    <select id="midiMode"><option value="off">Off</option><option value="learn">Learn: bind any controller</option><option value="sq">Fader-strip preset (Allen &amp; Heath SQ MIDI strips)</option></select>
+  </label>
+  <p class="muted" id="midiHelp"></p>
+  <div class="dlg-row"><button id="midiLearn" class="btn toggle" aria-pressed="false">Learn next control</button><button id="midiClear" class="btn ghost">Clear bindings</button><span class="grow"></span><button id="midiClose" class="btn">Done</button></div>
+  <p class="muted" id="midiLast"></p>
+</dialog>
+
+
+<dialog id="helpDlg" class="dlg"><h2>Keyboard and mouse</h2>
+<table class="keys-table">
+<tr><td><kbd>Space</kbd></td><td>Play / pause</td></tr><tr><td><kbd>Home</kbd></td><td>Back to the start</td></tr><tr><td><kbd>&larr;</kbd> <kbd>&rarr;</kbd></td><td>One beat back / forward</td></tr>
+<tr><td><kbd>[</kbd> <kbd>]</kbd></td><td>Select the previous / next channel</td></tr><tr><td><kbd>M</kbd> <kbd>S</kbd></td><td>Mute / solo the selected channel</td></tr><tr><td><kbd>L</kbd> <kbd>K</kbd></td><td>Loop on / off; add a marker here</td></tr><tr><td>Sections</td><td>Click to go there; double-click to loop the section</td></tr><tr><td><kbd>Esc</kbd></td><td>Clear every solo</td></tr>
+<tr><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></td><td>Display page: Score, Processing, Waveform</td></tr>
+<tr><td>Fader</td><td>Drag anywhere on it (it never jumps); hold <kbd>Shift</kbd> for fine moves; double-click for 0 dB; when it has focus: <kbd>&uarr;</kbd> <kbd>&darr;</kbd> 1 dB, <kbd>PgUp</kbd> <kbd>PgDn</kbd> 6 dB, mouse wheel 0.5 dB</td></tr>
+<tr><td>Pan, EQ sliders</td><td>Double-click to reset</td></tr><tr><td>Overview</td><td>Click to seek; <kbd>Shift</kbd>-drag to set a loop</td></tr>
+</table><p class="hint">The desk is saved in this browser for each song and comes back when you load the same song again.</p><button id="helpClose" class="btn">Close</button></dialog>
+<footer class="foot"><button id="helpBtn" class="linkbtn">Keyboard shortcuts (?)</button> · <a href="docs/" rel="noopener">Tutorials</a> · <a href="https://github.com/melhzy/VirtualStemDesk" id="repoLink" rel="noopener">Source</a></footer>
+
+<script src="vendor/abcjs-basic-min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
