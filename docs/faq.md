@@ -24,11 +24,11 @@ Check `scoreStart` in `song.json`: it is the time at which the first note of the
 
 ## May I reuse the Amazing Grace demo stems?
 
-No. The arrangement and recordings belong to Ziyuan Huang and are provided only for trying the mixer; they are not under the project's Apache licence. Do not redistribute the stems or extract instrument sounds from them. The small New Britain demo is synthesized from scratch and is free to reuse.
+No. The arrangement and recordings belong to Ziyuan Huang and are provided only for trying the mixer; they are not under the project's Apache licence. Do not redistribute the stems or extract instrument sounds from them.
 
-## A demo button says it cannot fetch
+## The Load demo button says it cannot fetch
 
-You opened `index.html` straight from disk. Browsers do not let such a page fetch files. Drop the `demo` folder onto the page instead, or serve the folder with `python3 -m http.server`.
+You opened `index.html` straight from disk. Browsers do not let such a page fetch files. Drop the `demo/amazing-grace` folder onto the page instead, or serve the folder with `python3 -m http.server`.
 
 ## What is not there yet
 

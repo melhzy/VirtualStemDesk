@@ -2,5 +2,4 @@ title: Virtual Stem Desk
 description: A mixing console for audio stems that runs in your browser
 theme: jekyll-theme-cayman
 exclude:
-  - tools
   - NOTICE

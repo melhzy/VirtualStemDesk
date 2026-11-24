@@ -617,8 +617,8 @@
     }).catch(function (e) { status('Export failed: ' + e.message, true); }).then(function () { $('exportWav').disabled = false; });
   }
   function loadDemo(dir) {             // dir: a folder on the site that holds song.json and the files it names
-    if (location.protocol === 'file:') { status('The demo is fetched over HTTP, which a page opened from disk cannot do. Drop the "demo" folder onto the page instead.', true); return; }
-    dir = (dir || 'demo').replace(/\/$/, '') + '/'; status('Fetching the demo…');
+    if (location.protocol === 'file:') { status('The demo is fetched over HTTP, which a page opened from disk cannot do. Drop the "demo/amazing-grace" folder onto the page instead.', true); return; }
+    dir = (dir || 'demo/amazing-grace').replace(/\/$/, '') + '/'; status('Fetching the demo…');
     fetch(dir + 'song.json').then(function (r) { if (!r.ok) throw new Error(dir + 'song.json: ' + r.status); return r.json(); }).then(function (song) {
       var names = song.tracks.map(function (t) { return t.file; }).concat(song.abc ? [song.abc] : []), got = 0, bytes = 0;
       return Promise.all(names.map(function (n) { return fetch(dir + n).then(function (r) { if (!r.ok) throw new Error(n + ': ' + r.status); return r.blob(); }).then(function (b) { got++; bytes += b.size; status('Fetching the demo: ' + got + ' of ' + names.length + ' files, ' + (bytes / 1048576).toFixed(0) + ' MB…'); return new File([b], n.replace(/\.abc\.txt$/, '.abc')); }); }))
@@ -672,7 +672,7 @@
   $('muteClear').onclick = function () { S.tracks.forEach(function (t) { t.mute = false; }); applyMix(); };
   $('resetDesk').onclick = function () { $('moreMenu').open = false; if (S.tracks.length) resetDesk(); };
   $('helpBtn').onclick = function () { $('helpDlg').showModal(); }; $('helpClose').onclick = function () { $('helpDlg').close(); };
-  $('loadDemo').onclick = function () { loadDemo('demo/amazing-grace'); }; $('loadSmall').onclick = function () { loadDemo('demo'); }; $('clearAll').onclick = function () { closeSong(); $('moreMenu').open = false; };
+  $('loadDemo').onclick = function () { loadDemo('demo/amazing-grace'); }; $('clearAll').onclick = function () { closeSong(); $('moreMenu').open = false; };
   $('play').onclick = function () { if (!S.tracks.length) return; if (cancelCount()) { tickUI(); return; } if (S.playing) { stopPlayback(); tickUI(); } else startPlayback(S.pos); };
   $('stop').onclick = function () { S.passes = 1; stopPlayback(); S.pos = 0; tickUI(); };
   $('rate').onchange = function () { var p = curPos(); S.rate = +this.value; if (S.playing) startPlayback(p); status(S.rate === 1 ? 'Normal speed.' : 'Speed ' + Math.round(S.rate * 100) + '%: the pitch drops with it.'); };

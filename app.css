@@ -232,3 +232,7 @@ kbd { font: 11px/1 ui-monospace, monospace; background: #0a0c0f; border: 1px sol
 .keys { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 .field.lang select { padding: 4px 6px; }
 .plate span { word-break: normal; overflow-wrap: anywhere; hyphens: auto; }
+/* the clock and the bar counter keep a fixed width, so nothing in the transport moves when their text changes */
+.clock { display: inline-block; min-width: 16ch; }
+.barbeat { display: inline-block; min-width: 20ch; white-space: nowrap; }
+.barbeat:empty { display: inline-block; }

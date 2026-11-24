@@ -34,7 +34,7 @@ Without `song.json` the tracks are named after their files, listed in alphabetic
 
 ```json
 {
-  "title": "New Britain (demo)",
+  "title": "My song",
   "bpm": 78,
   "meter": "6/4",
   "firstDownbeat": 1.7692,

@@ -6,10 +6,7 @@ Licensed under the Apache License, Version 2.0 (see LICENSE).
 This product bundles abcjs (https://github.com/paulrosen/abcjs), Copyright (c) 2009-2024
 Paul Rosen and Gregory Dyke, under the MIT License; see vendor/abcjs-LICENSE.md.
 
-Demo songs
-
-demo/ (small demo): the traditional tune NEW BRITAIN (public domain), synthesized by
-tools/make_demo.py. It contains no recordings or samples.
+Demo song
 
 demo/amazing-grace/: an arrangement of the hymn Amazing Grace (tune NEW BRITAIN, public
 domain) for two pianos and orchestra, Copyright 2026 Ziyuan Huang. These recordings are

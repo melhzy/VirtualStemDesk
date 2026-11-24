@@ -6,7 +6,7 @@
 
 不上传任何东西。音频在浏览器标签页里解码和混音。没有构建步骤，也没有服务器端代码。
 
-**[打开分轨台](https://melhzy.github.io/VirtualStemDesk/)**，点“载入演示”（奇异恩典，22 条分轨，约 43 MB）或“小演示”；界面语言在顶栏右侧切换。教程目前是英文：**[Tutorials](https://melhzy.github.io/VirtualStemDesk/docs/)**。
+**[打开分轨台](https://melhzy.github.io/VirtualStemDesk/)**，点“载入演示”（奇异恩典，22 条分轨，约 43 MB）；界面语言在顶栏右侧切换。教程目前是英文：**[Tutorials](https://melhzy.github.io/VirtualStemDesk/docs/)**。
 
 ![载入演示歌曲后的分轨台](docs/screenshot.png)
 
@@ -55,12 +55,9 @@ my-song/
 
 ## 演示歌曲
 
-| 按钮 | 歌曲 | 大小 |
-|---|---|---|
-| **载入演示** | 奇异恩典，两架钢琴加乐团：22 条分轨，五节，带谱子和跟着演奏走的拍点 | 约 43 MB，载入后占内存约 1 GB |
-| **小演示** | New Britain：三条合成的分轨，一节 | 约 5 MB |
+**载入演示**载入的是奇异恩典，两架钢琴加乐团：22 条分轨，五节，带谱子和跟着演奏走的拍点。下载约 43 MB，载入后占内存约 1 GB。
 
-奇异恩典的编曲和录音属于 Ziyuan Huang，**不**在 Apache 许可之内：放在这里是为了试用分轨台。请不要再分发这些分轨，也不要从中提取乐器声音。所用乐器：Zauberpiano Cinematic（Decent Samples）、SWAM Violin（Audio Modeling）、Versilian Studios Chamber Orchestra 2 Community Edition，见 [NOTICE](NOTICE)。分轨是 24 位原件的 MP3 拷贝。
+编曲和录音属于 Ziyuan Huang，**不**在 Apache 许可之内：放在这里是为了试用分轨台。请不要再分发这些分轨，也不要从中提取乐器声音。所用乐器：Zauberpiano Cinematic（Decent Samples）、SWAM Violin（Audio Modeling）、Versilian Studios Chamber Orchestra 2 Community Edition，见 [NOTICE](NOTICE)。分轨是 24 位原件的 MP3 拷贝。
 
 ## 界面语言
 

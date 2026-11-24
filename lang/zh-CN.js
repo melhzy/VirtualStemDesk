@@ -3,7 +3,7 @@
   name: '简体中文',
   exact: {
     // top bar and drop area
-    'Open folder…': '打开文件夹…', 'Add files…': '添加文件…', 'Load demo': '载入演示', 'Small demo': '小演示', 'Amazing Grace: two pianos and orchestra, 22 stems, about 43 MB to download': '奇异恩典：两架钢琴加乐团，22 条分轨，下载约 43 MB', 'New Britain: three synthesized stems, about 5 MB': 'New Britain：三条合成的分轨，约 5 MB', 'More': '更多', 'No song loaded': '尚未载入歌曲',
+    'Open folder…': '打开文件夹…', 'Add files…': '添加文件…', 'Load demo': '载入演示', 'Amazing Grace: two pianos and orchestra, 22 stems, about 43 MB to download': '奇异恩典：两架钢琴加乐团，22 条分轨，下载约 43 MB', 'More': '更多', 'No song loaded': '尚未载入歌曲',
     'Save desk settings': '保存台面设置', 'Load desk settings…': '载入台面设置…', 'Export loudness': '导出响度', 'As mixed': '照现在的混音',
     'Export mix as WAV': '导出混音为 WAV', 'MIDI control…': 'MIDI 控制…', 'Reset desk': '重置台面', 'Close song': '关闭歌曲',
     'Forget the saved desk for this song and go back to the levels in song.json': '忘掉这首歌保存的台面，回到 song.json 里的电平',
@@ -66,7 +66,7 @@
     'Song closed.': '歌曲已关闭。', 'Reached the end.': '已到结尾。', 'Link removed.': '已解除配对。', 'There is no channel to the right to link with.': '右边没有可以配对的通道。',
     'The desk is back to the way the song loads: levels from song.json, no processing, no scenes.': '台面已回到歌曲刚载入时的样子：电平照 song.json，没有处理，没有场景。',
     'Nothing is audible, so there is nothing to export.': '现在没有任何声音，所以没有可导出的内容。', 'Rendering the mix with all processing…': '正在渲染混音（包含所有处理）…',
-    'The demo is fetched over HTTP, which a page opened from disk cannot do. Drop the "demo" folder onto the page instead.': '演示要通过 HTTP 获取，从硬盘直接打开的页面做不到。请把 "demo" 文件夹拖到页面上。',
+    'The demo is fetched over HTTP, which a page opened from disk cannot do. Drop the "demo/amazing-grace" folder onto the page instead.': '演示要通过 HTTP 获取，从硬盘直接打开的页面做不到。请把 "demo/amazing-grace" 文件夹拖到页面上。',
     'Fetching the demo…': '正在获取演示…', 'Normal speed.': '正常速度。', 'Shift-drag on the overview to choose what to loop.': '在总览上按住 Shift 拖动，选择循环范围。',
     'Store is armed: press a scene number.': '存储已就绪：按一个场景号。', 'Store cancelled.': '已取消存储。', 'That file is not a desk settings file.': '那个文件不是台面设置文件。',
     'MIDI learn: touch a fader, or press Mute, Solo, Play or Stop, then move the control on your MIDI device.': 'MIDI 学习：动一下推子，或按静音、独奏、播放、停止，然后动一下 MIDI 设备上的控件。'
