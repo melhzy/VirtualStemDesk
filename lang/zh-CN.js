@@ -13,7 +13,7 @@
     'Everything stays in this browser tab. Nothing is uploaded.': '所有内容都留在这个浏览器标签页里，不会上传。',
     'Language': '语言', 'Interface language': '界面语言',
     // transport
-    'Play': '播放', 'Pause': '暂停', 'Stop': '停止', 'Play or pause (Space)': '播放或暂停（空格）', 'Loop': '循环', 'Count-in': '预备拍', '+ Marker': '+ 标记',
+    'Play': '播放', 'Pause': '暂停', 'Stop': '停止', 'Play or pause (Space)': '播放或暂停（空格）', 'Loop': '循环', 'Repeat': '单曲循环', 'Repeat the whole song: at the end, start again from the beginning (R)': '单曲循环：放到结尾后从头再放（R）', 'Repeat the whole song on / off': '单曲循环开关', 'Repeat is on: at the end, the song starts again from the beginning.': '单曲循环已打开：放到结尾后从头再放。', 'Repeat is off: the song stops at the end.': '单曲循环已关闭：放到结尾就停。', 'Count-in': '预备拍', '+ Marker': '+ 标记',
     'Speed': '速度', 'Metronome': '节拍器', 'Metronome level': '节拍器音量', 'Transport': '走带', 'Sections': '段落', 'Markers': '标记', 'Overview': '总览',
     'Loop on / off (L). Choose what to loop: Shift-drag on the overview, or double-click a section.': '循环开关（L）。选择循环范围：在总览上按住 Shift 拖动，或双击一个段落。',
     'When a loop repeats, play one bar of clicks first': '循环每次重复前，先打一小节节拍',
@@ -97,6 +97,7 @@
     [/^Exported ([\d:.]+), 24-bit, (\d+) Hz: (-?[\d.]+) LUFS integrated, true peak (-?[\d.]+) dBTP(?: \(gain ([+-]?[\d.]+) dB applied, no limiter\))?\.( The true-peak ceiling of -1 dBTP was reached first, so it is quieter than the (-?\d+) LUFS asked for\.)?( It clipped: lower the main fader, or choose a loudness target, and export again\.)?$/,
       function (m, dur, hz, lu, tp, g, cap, target, clip) { return '已导出 ' + dur + '，24 位，' + hz + ' Hz：整体响度 ' + lu + ' LUFS，真峰值 ' + tp + ' dBTP' + (g ? '（加了 ' + g + ' dB 增益，没有限幅）' : '') + '。' + (cap ? '先碰到了 -1 dBTP 的真峰值上限，所以比要求的 ' + target + ' LUFS 轻。' : '') + (clip ? '削波了：把主推子拉低，或选一个目标响度，再导出一次。' : ''); }],
     [/^Fetching the demo: (\d+) of (\d+) files, (\d+) MB…$/, '正在获取演示：$1 / $2 个文件，$3 MB…'],
+    [/^Repeat: playing the song again \(time (\d+)\)\.$/, '单曲循环：从头再放（第 $1 遍）。'],
     [/^Export failed: (.*)$/, '导出失败：$1'], [/^The demo could not be loaded: (.*)$/, '演示载入失败：$1'], [/^Speed (\d+)%: the pitch drops with it\.$/, '速度 $1%：音高会跟着降低。'],
     [/^Desk settings applied to (\d+) of (\d+) tracks\.$/, '台面设置已应用到 $2 轨中的 $1 轨。'],
     [/^Waiting for a MIDI control for: (.+)$/, '等待 MIDI 控件，用于：$1'], [/^Listening to: (.+)$/, '正在监听：$1'], [/^Last message: (.+)$/, '最近一条消息：$1'], [/^Bound (CC|note) (\d+) to (.+)\.$/, '已把 $1 $2 绑定到 $3。']

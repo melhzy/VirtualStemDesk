@@ -16,7 +16,7 @@ Nothing is uploaded. The audio is decoded and mixed in the browser tab. There is
 - **Selected-channel processing**: high-pass filter, 4-band parametric EQ with a response curve, compressor with a gain-reduction meter.
 - **Scenes**: store and recall eight snapshots of the whole desk.
 - **Score display**: an ABC score drawn above the faders, with a cursor that follows the song's beat grid through tempo changes. Re-flow it to any number of bars per line, or run it as one scrolling line.
-- **Rehearsal tools**: metronome, section buttons, section loops with an optional count-in, markers, beat stepping, 75 % and 50 % speed.
+- **Rehearsal tools**: repeat of the whole song, metronome, section buttons, section loops with an optional count-in, markers, beat stepping, 75 % and 50 % speed.
 - **Waveform page**: the selected track against the beat grid, with a timing nudge in milliseconds.
 - **Loudness**: live momentary, short-term and integrated loudness (ITU-R BS.1770) and peak; the export reports integrated loudness and true peak and can be normalised to a target.
 - **MIDI control**: Web MIDI learn mode, plus a preset for controllers that send SQ-style fader-strip messages.

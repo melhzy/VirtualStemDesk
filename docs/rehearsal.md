@@ -40,6 +40,10 @@ When the score is one verse and the recording plays it five times, set `scoreRep
 
 **Speed** plays at 100 %, 75 % or 50 %. Slower speeds also lower the pitch.
 
+## Repeat
+
+**Repeat** (or **R**) plays the whole song again from the beginning each time it reaches the end, until you press Stop or switch Repeat off. The setting is remembered. It is separate from **Loop**, which repeats a section or a range you choose; when Loop is on, the loop wins.
+
 ## Loops
 
 ![A looped section and two markers](img/05-loop-markers.png)

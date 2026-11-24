@@ -58,5 +58,6 @@ Press **?** on the desk for the full list. The ones you will use most:
 | M, S | Mute / solo the selected channel |
 | Esc | Clear every solo |
 | 1, 2, 3 | Display page: Score, Processing, Waveform |
+| R | Repeat the whole song on / off |
 | L | Loop on / off |
 | K | Add a marker here |

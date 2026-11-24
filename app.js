@@ -136,7 +136,7 @@
     }
     buildBeats(); buildStrips(); buildSections(); buildScore(); buildOverviewPeaks();
     $('songTitle').textContent = song.title || (S.tracks.length + (S.tracks.length === 1 ? ' stem' : ' stems')); document.title = (song.title ? song.title + ' · ' : '') + 'Virtual Stem Desk';
-    ['play', 'stop', 'loopBtn', 'rate', 'saveMix', 'loadMix', 'exportWav', 'clearAll', 'resetDesk', 'markBtn', 'countIn'].forEach(function (id) { $(id).disabled = false; });
+    ['play', 'stop', 'loopBtn', 'rate', 'saveMix', 'loadMix', 'exportWav', 'clearAll', 'resetDesk', 'markBtn', 'countIn', 'repeatBtn'].forEach(function (id) { $(id).disabled = false; });
     $('clickBtn').disabled = $('clickVol').disabled = !S.beats.length;
     $('drop').hidden = true; $('deskMain').hidden = false; fitStrips(); S.ready = false; var back = !noRestore && restoreSaved(); S.ready = true; applyMix(); showSelected(); drawOverview(); tickUI();
     status((back ? 'Your last desk for this song was restored (More > Reset desk goes back to the song defaults). ' : '') + 'Loaded ' + S.tracks.length + ' stem' + (S.tracks.length === 1 ? '' : 's') + ', ' + fmt(S.duration) + (S.beats.length ? ', ' + (song.bpm ? song.bpm + ' bpm' : 'beat grid from song.json') : '. No tempo given, so the metronome is off: add a song.json with "bpm" to enable it') + '.');
@@ -145,7 +145,7 @@
     S.ready = false; stopPlayback(); S.markers = []; buildMarkers(); S.dcas.forEach(function (d, i) { d.name = 'DCA ' + (i + 1); d.db = 0; d.mute = false; }); S.tracks = []; S.song = null; S.duration = 0; S.beats = []; S.pos = 0; S.loop = { on: false, a: null, b: null }; S.score = null; S.sel = null;
     $('strips').innerHTML = ''; $('groups').innerHTML = ''; $('sections').innerHTML = ''; $('paper').innerHTML = ''; showPage('proc'); $('deskMain').hidden = true; $('drop').hidden = false;
     $('selTag').textContent = ''; $('songTitle').textContent = 'No song loaded'; $('loopBtn').setAttribute('aria-pressed', 'false'); $('loopBox').hidden = true;
-    ['play', 'stop', 'loopBtn', 'rate', 'saveMix', 'loadMix', 'exportWav', 'clearAll', 'clickBtn', 'clickVol', 'markBtn', 'countIn', 'resetDesk'].forEach(function (id) { $(id).disabled = true; });
+    ['play', 'stop', 'loopBtn', 'rate', 'saveMix', 'loadMix', 'exportWav', 'clearAll', 'clickBtn', 'clickVol', 'markBtn', 'countIn', 'resetDesk', 'repeatBtn'].forEach(function (id) { $(id).disabled = true; });
     if (!quiet) status('Song closed.');
   }
   function removeTrack(t) {
@@ -500,7 +500,7 @@
   function tick() {
     if (!S.playing) return; var p = curPos();
     if (S.loop.on && S.loop.b != null && p >= S.loop.b) { if ($('countIn').checked && S.beats.length) countInThen(S.loop.a); else startPlayback(S.loop.a); return; }
-    if (p >= S.duration - 0.005) { stopPlayback(); S.pos = 0; tickUI(); status('Reached the end.'); return; }
+    if (p >= S.duration - 0.005) { if (S.repeat) { S.passes = (S.passes || 1) + 1; startPlayback(0); status('Repeat: playing the song again (time ' + S.passes + ').'); return; } stopPlayback(); S.pos = 0; tickUI(); status('Reached the end.'); return; }
     tickUI(); S.raf = requestAnimationFrame(tick);
   }
   var mbuf = new Float32Array(512);
@@ -674,10 +674,12 @@
   $('helpBtn').onclick = function () { $('helpDlg').showModal(); }; $('helpClose').onclick = function () { $('helpDlg').close(); };
   $('loadDemo').onclick = function () { loadDemo('demo/amazing-grace'); }; $('loadSmall').onclick = function () { loadDemo('demo'); }; $('clearAll').onclick = function () { closeSong(); $('moreMenu').open = false; };
   $('play').onclick = function () { if (!S.tracks.length) return; if (cancelCount()) { tickUI(); return; } if (S.playing) { stopPlayback(); tickUI(); } else startPlayback(S.pos); };
-  $('stop').onclick = function () { stopPlayback(); S.pos = 0; tickUI(); };
+  $('stop').onclick = function () { S.passes = 1; stopPlayback(); S.pos = 0; tickUI(); };
   $('rate').onchange = function () { var p = curPos(); S.rate = +this.value; if (S.playing) startPlayback(p); status(S.rate === 1 ? 'Normal speed.' : 'Speed ' + Math.round(S.rate * 100) + '%: the pitch drops with it.'); };
   $('loopBtn').onclick = function () { if (S.loop.a == null) { status('Shift-drag on the overview to choose what to loop.'); return; } S.loop.on = !S.loop.on; this.setAttribute('aria-pressed', S.loop.on ? 'true' : 'false'); updateLoopBox(); markSections(); };
   $('markBtn').onclick = addMarker;
+  $('repeatBtn').onclick = function () { S.repeat = !S.repeat; S.passes = 1; this.setAttribute('aria-pressed', S.repeat ? 'true' : 'false'); try { localStorage.setItem('vsd2:repeat', S.repeat ? '1' : '0'); } catch (e) {} status(S.repeat ? 'Repeat is on: at the end, the song starts again from the beginning.' : 'Repeat is off: the song stops at the end.'); };
+  try { if (localStorage.getItem('vsd2:repeat') === '1') { S.repeat = true; $('repeatBtn').setAttribute('aria-pressed', 'true'); } } catch (e) {}
   $('clickBtn').onclick = function () { S.click.on = !S.click.on; this.setAttribute('aria-pressed', S.click.on ? 'true' : 'false'); if (S.playing) startPlayback(curPos()); };
   $('clickVol').oninput = function () { S.click.db = +this.value; if (S.clickGain) S.clickGain.gain.value = db2g(S.click.db); };
   $('sceneStore').onclick = function () { S.storeArmed = !S.storeArmed; this.setAttribute('aria-pressed', S.storeArmed ? 'true' : 'false'); status(S.storeArmed ? 'Store is armed: press a scene number.' : 'Store cancelled.'); };
@@ -704,6 +706,7 @@
     else if (e.key === 'Home') { e.preventDefault(); seek(0); }
     else if (e.key === 'k' || e.key === 'K') addMarker();
     else if (e.key === 'l' || e.key === 'L') $('loopBtn').click();
+    else if (e.key === 'r' || e.key === 'R') $('repeatBtn').click();
     else if (e.key === 'Escape') { if (S.tracks.some(function (t) { return t.solo; })) $('soloClear').click(); }
     else if (/^[123]$/.test(e.key)) showPage(['score', 'proc', 'wave'][+e.key - 1]);
     else if (e.key === '[' || e.key === ']') { var k = clamp(S.tracks.indexOf(S.sel) + (e.key === ']' ? 1 : -1), 0, S.tracks.length - 1); select(S.tracks[k], true); S.tracks[k].ui.root.scrollIntoView({ block: 'nearest', inline: 'nearest' }); }

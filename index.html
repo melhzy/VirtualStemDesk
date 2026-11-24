@@ -39,6 +39,7 @@
   <output id="clock" class="clock">0:00.0 / 0:00.0</output>
   <span id="barBeat" class="barbeat"></span>
   <span class="sep"></span>
+  <button id="repeatBtn" class="btn toggle" aria-pressed="false" disabled title="Repeat the whole song: at the end, start again from the beginning (R)">Repeat</button>
   <button id="loopBtn" class="btn toggle" aria-pressed="false" disabled title="Loop on / off (L). Choose what to loop: Shift-drag on the overview, or double-click a section.">Loop</button>
   <label class="field" title="When a loop repeats, play one bar of clicks first"><input type="checkbox" id="countIn" disabled> Count-in</label>
   <button id="markBtn" class="btn" disabled title="Add a marker at the current position (K)">+ Marker</button>
@@ -149,7 +150,7 @@
 <dialog id="helpDlg" class="dlg"><h2>Keyboard and mouse</h2>
 <table class="keys-table">
 <tr><td><kbd>Space</kbd></td><td>Play / pause</td></tr><tr><td><kbd>Home</kbd></td><td>Back to the start</td></tr><tr><td><kbd>&larr;</kbd> <kbd>&rarr;</kbd></td><td>One beat back / forward</td></tr>
-<tr><td><kbd>[</kbd> <kbd>]</kbd></td><td>Select the previous / next channel</td></tr><tr><td><kbd>M</kbd> <kbd>S</kbd></td><td>Mute / solo the selected channel</td></tr><tr><td><kbd>L</kbd> <kbd>K</kbd></td><td>Loop on / off; add a marker here</td></tr><tr><td>Sections</td><td>Click to go there; double-click to loop the section</td></tr><tr><td><kbd>Esc</kbd></td><td>Clear every solo</td></tr>
+<tr><td><kbd>[</kbd> <kbd>]</kbd></td><td>Select the previous / next channel</td></tr><tr><td><kbd>M</kbd> <kbd>S</kbd></td><td>Mute / solo the selected channel</td></tr><tr><td><kbd>R</kbd></td><td>Repeat the whole song on / off</td></tr><tr><td><kbd>L</kbd> <kbd>K</kbd></td><td>Loop on / off; add a marker here</td></tr><tr><td>Sections</td><td>Click to go there; double-click to loop the section</td></tr><tr><td><kbd>Esc</kbd></td><td>Clear every solo</td></tr>
 <tr><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></td><td>Display page: Score, Processing, Waveform</td></tr>
 <tr><td>Fader</td><td>Drag anywhere on it (it never jumps); hold <kbd>Shift</kbd> for fine moves; double-click for 0 dB; when it has focus: <kbd>&uarr;</kbd> <kbd>&darr;</kbd> 1 dB, <kbd>PgUp</kbd> <kbd>PgDn</kbd> 6 dB, mouse wheel 0.5 dB</td></tr>
 <tr><td>Pan, EQ sliders</td><td>Double-click to reset</td></tr><tr><td>Overview</td><td>Click to seek; <kbd>Shift</kbd>-drag to set a loop</td></tr>
