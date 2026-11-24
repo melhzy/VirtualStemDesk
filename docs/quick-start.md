@@ -8,7 +8,8 @@ Open the desk. You see an empty page with a drop area.
 
 ![The empty desk](img/01-empty.png)
 
-- Press **Load demo** for a 40-second, three-stem song, or
+- Press **Load demo** for Amazing Grace with two pianos and orchestra (22 stems, about 43 MB to download, about 1 GB of memory), or
+- press **Small demo** for a 40-second, three-stem song, or
 - drag a folder of audio files from your computer onto the page, or
 - press **Open folder…** and pick the folder.
 

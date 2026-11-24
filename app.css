@@ -231,3 +231,4 @@ kbd { font: 11px/1 ui-monospace, monospace; background: #0a0c0f; border: 1px sol
 .strip > * { max-width: 100%; }
 .keys { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 .field.lang select { padding: 4px 6px; }
+.plate span { word-break: normal; overflow-wrap: anywhere; hyphens: auto; }

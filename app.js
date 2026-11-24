@@ -50,6 +50,8 @@
     try { var v = new DataView(ab), tag = function (o) { return String.fromCharCode(v.getUint8(o), v.getUint8(o + 1), v.getUint8(o + 2), v.getUint8(o + 3)); };
       if (tag(0) === 'fLaC') return (v.getUint8(18) << 12) | (v.getUint8(19) << 4) | (v.getUint8(20) >> 4);
       if (tag(0) === 'RIFF' && tag(8) === 'WAVE') { var o = 12; while (o + 8 < v.byteLength) { var n = v.getUint32(o + 4, true); if (tag(o) === 'fmt ') return v.getUint32(o + 12, true); o += 8 + n + (n & 1); } }
+      var p = 0; if (tag(0).slice(0, 3) === 'ID3') p = 10 + ((v.getUint8(6) & 127) << 21 | (v.getUint8(7) & 127) << 14 | (v.getUint8(8) & 127) << 7 | (v.getUint8(9) & 127));      // MP3: skip the tag, read the first frame header
+      for (var end = Math.min(v.byteLength - 4, p + 8192); p < end; p++) if (v.getUint8(p) === 255 && (v.getUint8(p + 1) & 224) === 224) { var ver = (v.getUint8(p + 1) >> 3) & 3, layer = (v.getUint8(p + 1) >> 1) & 3, si = (v.getUint8(p + 2) >> 2) & 3; if (ver !== 1 && layer === 1 && si < 3) return [44100, 48000, 32000][si] >> (ver === 3 ? 0 : ver === 2 ? 1 : 2); }
     } catch (e) {} return 0;
   }
   function matchRate(ab) { var r = sniffRate(ab); if (r >= 44100 && r <= 96000 && !S.tracks.length && (!S.ctx || S.ctx.sampleRate !== r)) { if (S.ctx) { try { S.ctx.close(); } catch (e) {} S.ctx = null; } S.wantRate = r; } return ab; }
@@ -614,12 +616,12 @@
       status('Exported ' + fmt(S.duration) + ', 24-bit, ' + sr + ' Hz: ' + (lu + g).toFixed(1) + ' LUFS integrated, true peak ' + (tp + g).toFixed(1) + ' dBTP' + (g ? ' (gain ' + (g > 0 ? '+' : '') + g.toFixed(1) + ' dB applied, no limiter).' : '.') + note + (clip ? ' It clipped: lower the main fader, or choose a loudness target, and export again.' : ''), clip);
     }).catch(function (e) { status('Export failed: ' + e.message, true); }).then(function () { $('exportWav').disabled = false; });
   }
-  function loadDemo() {
+  function loadDemo(dir) {             // dir: a folder on the site that holds song.json and the files it names
     if (location.protocol === 'file:') { status('The demo is fetched over HTTP, which a page opened from disk cannot do. Drop the "demo" folder onto the page instead.', true); return; }
-    status('Fetching the demo…');
-    fetch('demo/song.json').then(function (r) { if (!r.ok) throw new Error('demo/song.json: ' + r.status); return r.json(); }).then(function (song) {
-      var names = song.tracks.map(function (t) { return t.file; }).concat(song.abc ? [song.abc] : []);
-      return Promise.all(names.map(function (n) { return fetch('demo/' + n).then(function (r) { if (!r.ok) throw new Error(n + ': ' + r.status); return r.blob(); }).then(function (b) { return new File([b], n.replace(/\.abc\.txt$/, '.abc')); }); }))
+    dir = (dir || 'demo').replace(/\/$/, '') + '/'; status('Fetching the demo…');
+    fetch(dir + 'song.json').then(function (r) { if (!r.ok) throw new Error(dir + 'song.json: ' + r.status); return r.json(); }).then(function (song) {
+      var names = song.tracks.map(function (t) { return t.file; }).concat(song.abc ? [song.abc] : []), got = 0, bytes = 0;
+      return Promise.all(names.map(function (n) { return fetch(dir + n).then(function (r) { if (!r.ok) throw new Error(n + ': ' + r.status); return r.blob(); }).then(function (b) { got++; bytes += b.size; status('Fetching the demo: ' + got + ' of ' + names.length + ' files, ' + (bytes / 1048576).toFixed(0) + ' MB…'); return new File([b], n.replace(/\.abc\.txt$/, '.abc')); }); }))
         .then(function (files) { return loadFiles(files.concat([new File([JSON.stringify(song)], 'song.json')])); });
     }).catch(function (e) { status('The demo could not be loaded: ' + e.message, true); });
   }
@@ -670,7 +672,7 @@
   $('muteClear').onclick = function () { S.tracks.forEach(function (t) { t.mute = false; }); applyMix(); };
   $('resetDesk').onclick = function () { $('moreMenu').open = false; if (S.tracks.length) resetDesk(); };
   $('helpBtn').onclick = function () { $('helpDlg').showModal(); }; $('helpClose').onclick = function () { $('helpDlg').close(); };
-  $('loadDemo').onclick = loadDemo; $('clearAll').onclick = function () { closeSong(); $('moreMenu').open = false; };
+  $('loadDemo').onclick = function () { loadDemo('demo/amazing-grace'); }; $('loadSmall').onclick = function () { loadDemo('demo'); }; $('clearAll').onclick = function () { closeSong(); $('moreMenu').open = false; };
   $('play').onclick = function () { if (!S.tracks.length) return; if (cancelCount()) { tickUI(); return; } if (S.playing) { stopPlayback(); tickUI(); } else startPlayback(S.pos); };
   $('stop').onclick = function () { stopPlayback(); S.pos = 0; tickUI(); };
   $('rate').onchange = function () { var p = curPos(); S.rate = +this.value; if (S.playing) startPlayback(p); status(S.rate === 1 ? 'Normal speed.' : 'Speed ' + Math.round(S.rate * 100) + '%: the pitch drops with it.'); };

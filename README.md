@@ -6,7 +6,7 @@ A mixing console for audio stems that runs entirely in your browser. Drop a fold
 
 Nothing is uploaded. The audio is decoded and mixed in the browser tab. There is no build step and no server-side code.
 
-**[Open the desk](https://melhzy.github.io/VirtualStemDesk/)** and press **Load demo**, or read the **[tutorials](https://melhzy.github.io/VirtualStemDesk/docs/)**.
+**[Open the desk](https://melhzy.github.io/VirtualStemDesk/)** and press **Load demo** (Amazing Grace, 22 stems, 43 MB) or **Small demo**, or read the **[tutorials](https://melhzy.github.io/VirtualStemDesk/docs/)**.
 
 ![Virtual Stem Desk with the demo song loaded](docs/screenshot.png)
 
@@ -25,7 +25,7 @@ Nothing is uploaded. The audio is decoded and mixed in the browser tab. There is
 ## Quick start
 
 1. Open <https://melhzy.github.io/VirtualStemDesk/>.
-2. Drop a folder of stems (WAV, FLAC, MP3, OGG, M4A) onto the page, or press **Load demo**.
+2. Drop a folder of stems (WAV, FLAC, MP3, OGG, M4A) onto the page, or press **Load demo** or **Small demo**.
 3. Press Space to play. Press **?** for the keyboard shortcuts.
 
 To run it yourself:
@@ -36,7 +36,7 @@ cd VirtualStemDesk
 python3 -m http.server 8000      # then open http://localhost:8000
 ```
 
-Opening `index.html` straight from disk also works for your own songs. Only the **Load demo** button needs a web server, because a page opened from disk may not fetch files.
+Opening `index.html` straight from disk also works for your own songs. Only the demo buttons need a web server, because a page opened from disk may not fetch files.
 
 ## Tutorials
 
@@ -76,7 +76,16 @@ Current Chrome, Edge, Firefox and Safari. MIDI needs a browser with Web MIDI (Ch
 
 The app is `index.html`, `app.css` and `app.js`, with `i18n.js` and `lang/` for interface languages, plus [abcjs](https://github.com/paulrosen/abcjs) in `vendor/` for drawing the score. Edit and reload. `tools/make_demo.py` regenerates the demo song (numpy only).
 
-The demo in `demo/` is a synthesized arrangement of the traditional tune NEW BRITAIN, which is in the public domain. It contains no recordings or samples.
+## Demo songs
+
+| Button | Song | Size |
+|---|---|---|
+| **Load demo** | Amazing Grace for two pianos and orchestra: 22 stems, five stanzas, with a score and a beat grid that follows the performance | about 43 MB, about 1 GB of memory once loaded |
+| **Small demo** | New Britain: three synthesized stems, one stanza | about 5 MB |
+
+The Amazing Grace arrangement and recordings are by Ziyuan Huang and are **not** under the Apache licence: they are there for trying the mixer. Do not redistribute the stems or extract instrument sounds from them. The instruments are Zauberpiano Cinematic (Decent Samples), SWAM Violin (Audio Modeling) and the Versilian Studios Chamber Orchestra 2 Community Edition; see [NOTICE](NOTICE). The stems are MP3 copies of 24-bit originals.
+
+The small demo is generated from scratch by `tools/make_demo.py` and contains no recordings or samples.
 
 ## Licence
 

@@ -3,7 +3,7 @@
   name: '简体中文',
   exact: {
     // top bar and drop area
-    'Open folder…': '打开文件夹…', 'Add files…': '添加文件…', 'Load demo': '载入演示', 'More': '更多', 'No song loaded': '尚未载入歌曲',
+    'Open folder…': '打开文件夹…', 'Add files…': '添加文件…', 'Load demo': '载入演示', 'Small demo': '小演示', 'Amazing Grace: two pianos and orchestra, 22 stems, about 43 MB to download': '奇异恩典：两架钢琴加乐团，22 条分轨，下载约 43 MB', 'New Britain: three synthesized stems, about 5 MB': 'New Britain：三条合成的分轨，约 5 MB', 'More': '更多', 'No song loaded': '尚未载入歌曲',
     'Save desk settings': '保存台面设置', 'Load desk settings…': '载入台面设置…', 'Export loudness': '导出响度', 'As mixed': '照现在的混音',
     'Export mix as WAV': '导出混音为 WAV', 'MIDI control…': 'MIDI 控制…', 'Reset desk': '重置台面', 'Close song': '关闭歌曲',
     'Forget the saved desk for this song and go back to the levels in song.json': '忘掉这首歌保存的台面，回到 song.json 里的电平',
@@ -96,6 +96,7 @@
     [/^The ABC file could not be drawn: (.*)$/, 'ABC 谱子画不出来：$1'], [/^Count-in: (\d+) beats, then back to ([\d:.]+)\.$/, '预备拍：$1 拍，然后回到 $2。'],
     [/^Exported ([\d:.]+), 24-bit, (\d+) Hz: (-?[\d.]+) LUFS integrated, true peak (-?[\d.]+) dBTP(?: \(gain ([+-]?[\d.]+) dB applied, no limiter\))?\.( The true-peak ceiling of -1 dBTP was reached first, so it is quieter than the (-?\d+) LUFS asked for\.)?( It clipped: lower the main fader, or choose a loudness target, and export again\.)?$/,
       function (m, dur, hz, lu, tp, g, cap, target, clip) { return '已导出 ' + dur + '，24 位，' + hz + ' Hz：整体响度 ' + lu + ' LUFS，真峰值 ' + tp + ' dBTP' + (g ? '（加了 ' + g + ' dB 增益，没有限幅）' : '') + '。' + (cap ? '先碰到了 -1 dBTP 的真峰值上限，所以比要求的 ' + target + ' LUFS 轻。' : '') + (clip ? '削波了：把主推子拉低，或选一个目标响度，再导出一次。' : ''); }],
+    [/^Fetching the demo: (\d+) of (\d+) files, (\d+) MB…$/, '正在获取演示：$1 / $2 个文件，$3 MB…'],
     [/^Export failed: (.*)$/, '导出失败：$1'], [/^The demo could not be loaded: (.*)$/, '演示载入失败：$1'], [/^Speed (\d+)%: the pitch drops with it\.$/, '速度 $1%：音高会跟着降低。'],
     [/^Desk settings applied to (\d+) of (\d+) tracks\.$/, '台面设置已应用到 $2 轨中的 $1 轨。'],
     [/^Waiting for a MIDI control for: (.+)$/, '等待 MIDI 控件，用于：$1'], [/^Listening to: (.+)$/, '正在监听：$1'], [/^Last message: (.+)$/, '最近一条消息：$1'], [/^Bound (CC|note) (\d+) to (.+)\.$/, '已把 $1 $2 绑定到 $3。']

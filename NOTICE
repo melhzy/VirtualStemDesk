@@ -6,5 +6,17 @@ Licensed under the Apache License, Version 2.0 (see LICENSE).
 This product bundles abcjs (https://github.com/paulrosen/abcjs), Copyright (c) 2009-2024
 Paul Rosen and Gregory Dyke, under the MIT License; see vendor/abcjs-LICENSE.md.
 
-The demo song in demo/ is the traditional tune NEW BRITAIN (public domain), synthesized by
+Demo songs
+
+demo/ (small demo): the traditional tune NEW BRITAIN (public domain), synthesized by
 tools/make_demo.py. It contains no recordings or samples.
+
+demo/amazing-grace/: an arrangement of the hymn Amazing Grace (tune NEW BRITAIN, public
+domain) for two pianos and orchestra, Copyright 2026 Ziyuan Huang. These recordings are
+provided so that the mixer can be tried. They are NOT covered by the Apache License: you may
+listen to them and mix them in Virtual Stem Desk, but you may not redistribute the stems, and
+you may not extract, sample or resynthesize instrument sounds from them. Instruments used,
+each under its maker's licence:
+  - Piano: Zauberpiano Cinematic, Decent Samples (Decidedly, LLC)
+  - Violins: SWAM Violin, Audio Modeling
+  - Other orchestra parts: Versilian Studios Chamber Orchestra 2 Community Edition (CC0)

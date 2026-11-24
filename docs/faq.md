@@ -22,7 +22,11 @@ The compressor is the browser's built-in one, and it applies some make-up gain o
 
 Check `scoreStart` in `song.json`: it is the time at which the first note of the score sounds, including a pick-up note. If the tempo of the recording is not steady, give a `beats` list instead of `bpm`. If the score is one verse played several times, set `scoreRepeats` and `scoreBeats`.
 
-## The Load demo button says it cannot fetch
+## May I reuse the Amazing Grace demo stems?
+
+No. The arrangement and recordings belong to Ziyuan Huang and are provided only for trying the mixer; they are not under the project's Apache licence. Do not redistribute the stems or extract instrument sounds from them. The small New Britain demo is synthesized from scratch and is free to reuse.
+
+## A demo button says it cannot fetch
 
 You opened `index.html` straight from disk. Browsers do not let such a page fetch files. Drop the `demo` folder onto the page instead, or serve the folder with `python3 -m http.server`.
 
