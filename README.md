@@ -1,5 +1,7 @@
 # Virtual Stem Desk
 
+English · [简体中文](README.zh-CN.md)
+
 A mixing console for audio stems that runs entirely in your browser. Drop a folder of stems onto the page and you get a channel strip per track, processing for the selected channel, groups, scenes, a loudness meter, a score that follows the beat, and a WAV export of your mix.
 
 Nothing is uploaded. The audio is decoded and mixed in the browser tab. There is no build step and no server-side code.
@@ -60,13 +62,19 @@ my-song/
 
 Only the audio is required. See [Prepare a song](docs/prepare-a-song.md) for every field of `song.json`.
 
+## Languages
+
+The interface is available in English and 简体中文. It follows your browser's language the first time; change it with the selector in the top bar. Track names, section names and song titles are yours and are never translated.
+
+To add a language, copy `lang/zh-CN.js` to `lang/<code>.js`, translate the right-hand side of each entry, and add a `<script>` line for it in `index.html`. The file maps the app's English text to the translation, with a list of patterns for messages that contain numbers or names. No change to `app.js` is needed.
+
 ## Browser support
 
 Current Chrome, Edge, Firefox and Safari. MIDI needs a browser with Web MIDI (Chrome, Edge, Firefox). A song is held in memory once decoded: about 23 MB per stereo minute per stem at 48 kHz, less for stems that are silent for part of the song.
 
 ## Development
 
-The app is three files, `index.html`, `app.css` and `app.js`, plus [abcjs](https://github.com/paulrosen/abcjs) in `vendor/` for drawing the score. Edit and reload. `tools/make_demo.py` regenerates the demo song (numpy only).
+The app is `index.html`, `app.css` and `app.js`, with `i18n.js` and `lang/` for interface languages, plus [abcjs](https://github.com/paulrosen/abcjs) in `vendor/` for drawing the score. Edit and reload. `tools/make_demo.py` regenerates the demo song (numpy only).
 
 The demo in `demo/` is a synthesized arrangement of the traditional tune NEW BRITAIN, which is in the public domain. It contains no recordings or samples.
 

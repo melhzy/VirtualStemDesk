@@ -1,6 +1,6 @@
 # Virtual Stem Desk tutorials
 
-[Open the desk](../) · [Source on GitHub](https://github.com/melhzy/VirtualStemDesk)
+[Open the desk](../) · The desk itself is in English and 简体中文; these tutorials are in English · [Source on GitHub](https://github.com/melhzy/VirtualStemDesk)
 
 Virtual Stem Desk is a mixing console for audio stems that runs in your browser. These pages take you from the first click to a finished mix.
 
